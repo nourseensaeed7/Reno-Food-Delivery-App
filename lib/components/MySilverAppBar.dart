@@ -1,34 +1,36 @@
 import 'package:flutter/material.dart';
-class MySilverAppBar extends StatelessWidget{
+
+class MySilverAppBar extends StatelessWidget {
   final Widget child;
   final Widget title;
-  const MySilverAppBar({super.key,
-  required this.child,
-  required this.title});
+  const MySilverAppBar({super.key, required this.child, required this.title});
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return SliverAppBar(
       expandedHeight: 340,
-
       floating: false,
       pinned: true,
       actions: [
-        //cart Button
-        IconButton(onPressed: (){}, icon: const Icon(Icons.shopping_cart))
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.shopping_cart),
+        ),
       ],
-      backgroundColor:Theme.of(context).colorScheme.background,
-      foregroundColor:Theme.of(context).colorScheme.inversePrimary,
-      title: Text("Sunset Dinner"),
-      flexibleSpace:FlexibleSpaceBar(
-        background: Padding(
-          padding: const EdgeInsets.only(bottom: 50.0),
-        ),//padding
-        title: title,
-        centerTitle: true,
-        titlePadding: const EdgeInsets.only(left:0, right:0, top:0,),
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      foregroundColor: Theme.of(context).colorScheme.inversePrimary,
+      title: title,
+      flexibleSpace: FlexibleSpaceBar(
+        background: Column(          // 👈 was just empty Padding before
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            child,                   // 👈 child (MyCurrentLocation) finally rendered
+            const SizedBox(height: 50),
+          ],
+        ),
+        titlePadding: const EdgeInsets.only(left: 20, bottom: 16),
         expandedTitleScale: 1,
-      )
+      ),
     );
   }
 }
