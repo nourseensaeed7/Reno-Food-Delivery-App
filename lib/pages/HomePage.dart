@@ -1,26 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/components/MyDrawer.dart';
 import 'package:fooddelivery/components/MySilverAppBar.dart';
-class HomePage extends StatefulWidget{
+
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
   @override
-  State<HomePage> createState()=>_HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
-class _HomePageState extends State<HomePage>{
- @override
- Widget build(BuildContext context){
-  return Scaffold(
-    backgroundColor: Theme.of(context).colorScheme.background,
-    drawer: MyDrawer(),//side Menu
-    body: NestedScrollView(
-      headerSliverBuilder:(context,innerBoxIsScrolled)=>[
-      MySilverAppBar(
-        child:Text(''), 
-        title: Text("Home"),
+
+class _HomePageState extends State<HomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      drawer: MyDrawer(), // side Menu
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+          MySilverAppBar(
+            title: Text("Home"),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Divider(
+                  indent: 25,
+                  endIndent: 25,
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
+
+                // my current location
+
+                // description box
+
+                Text("LDOL"),
+              ],
+            ),
+          ),
+        ],
+        body: Container(color: Colors.blue),
       ),
-      ],
-      body: Container(color: Colors.blue,),
-      )
-  );
- }
+    );
+  }
 }
