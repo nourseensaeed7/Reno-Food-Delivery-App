@@ -8,7 +8,7 @@ class MySilverAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      expandedHeight: 340,
+      expandedHeight: 400,
       floating: false,
       pinned: true,
       actions: [
@@ -19,17 +19,24 @@ class MySilverAppBar extends StatelessWidget {
       ],
       backgroundColor: Theme.of(context).colorScheme.surface,
       foregroundColor: Theme.of(context).colorScheme.inversePrimary,
-      title: title,
+
+      // ✅ restaurant name in title slot
+      title: const Text("Sunset Diner"),
+
+      // ✅ TabBar pinned at the bottom edge of the app bar
+      bottom: PreferredSize(
+        preferredSize: const Size.fromHeight(50),
+        child: title,   // your MyTabBar widget
+      ),
+
       flexibleSpace: FlexibleSpaceBar(
-        background: Column(          // 👈 was just empty Padding before
+        background: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            child,                   // 👈 child (MyCurrentLocation) finally rendered
-            const SizedBox(height: 50),
+            child,  // MyCurrentLocation + Divider + MyDescriptionBox
+            const SizedBox(height: 55), // space so content doesn't hide behind TabBar
           ],
         ),
-        titlePadding: const EdgeInsets.only(left: 20, bottom: 16),
-        expandedTitleScale: 1,
       ),
     );
   }
