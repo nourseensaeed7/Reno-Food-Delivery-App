@@ -39,12 +39,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   //return list of foods in the category
   List<Widget> getFoodInThisCategory(List<Food>fullMenu){
     return FoodCategory.values.map((category){
+      //get category menue
       List<Food> categoryMenu=_filterMenuByCategory(category, fullMenu);
       return ListView.builder(
         itemCount: categoryMenu.length,
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context,index){
           final food=categoryMenu[index];
+
+          // retrun food tile UI
           return MyFoodTile(food: food,
            onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>FoodPage(food: food
            ),)),);
