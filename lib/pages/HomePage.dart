@@ -7,6 +7,7 @@ import 'package:fooddelivery/components/MyCurrentLocation.dart';
 import 'package:fooddelivery/components/MyTabBar.dart';
 import 'package:fooddelivery/models/Restourant.dart';
 import 'package:fooddelivery/models/Food.dart';
+import 'package:fooddelivery/pages/FoodPage.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -44,7 +45,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context,index){
           final food=categoryMenu[index];
-          return MyFoodTile(food: food, onTap: (){},);
+          return MyFoodTile(food: food,
+           onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>FoodPage(food: food
+           ),)),);
         },
       );
     }).toList();
