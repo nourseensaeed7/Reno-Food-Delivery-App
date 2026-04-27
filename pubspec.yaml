@@ -65,6 +65,11 @@ flutter:
   assets:
     - assets/images/Reno_Logo.jpg
     - assets/images/Reno_horizontal.png
+    - assets/images/burgers/
+    - assets/images/drinks/
+    - assets/images/sides/
+    - assets/images/desserts/
+    - assets/images/salads/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

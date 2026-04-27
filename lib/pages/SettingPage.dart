@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fooddelivery/components/MyDrawer.dart';
 import 'package:fooddelivery/themes/ThemeProvider.dart';
 import 'package:provider/provider.dart';
 class SettingPage extends StatelessWidget{

@@ -28,7 +28,7 @@ class MyCurrentLocation extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
       return Padding(
-        padding: const EdgeInsets.all(25.0),
+        padding: const EdgeInsets.symmetric(horizontal: 25.0 ,vertical:5.0),
         child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -41,15 +41,10 @@ class MyCurrentLocation extends StatelessWidget {
                   //adress
                   Text("69801 HollyWood Blv",
                     style:TextStyle(
-                    color: Theme.of(context).colorScheme.inversePrimary,
+                    color: Theme.of(context).colorScheme.primary,
                     fontWeight: FontWeight.bold,
-
                     ),
-
                   ),
-
-
-
                 //drop down menu
                 Icon(Icons.keyboard_arrow_down_rounded),
               ],

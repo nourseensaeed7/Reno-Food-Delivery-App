@@ -8,7 +8,7 @@ class MySilverAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      expandedHeight: 400,
+      expandedHeight: 250,
       floating: false,
       pinned: true,
       actions: [
@@ -17,8 +17,8 @@ class MySilverAppBar extends StatelessWidget {
           icon: const Icon(Icons.shopping_cart),
         ),
       ],
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      foregroundColor: Theme.of(context).colorScheme.inversePrimary,
+      backgroundColor: Theme.of(context).colorScheme.background,
+      foregroundColor: Theme.of(context).colorScheme.primary,
 
       // ✅ restaurant name in title slot
       title: const Text("Sunset Diner"),
@@ -34,7 +34,7 @@ class MySilverAppBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             child,  // MyCurrentLocation + Divider + MyDescriptionBox
-            const SizedBox(height: 55), // space so content doesn't hide behind TabBar
+            const SizedBox(height: 40), // space so content doesn't hide behind TabBar
           ],
         ),
       ),
