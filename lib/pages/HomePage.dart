@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                const MyCurrentLocation(),
+                 MyCurrentLocation(),
                 Divider(
                   indent: 25,
                   endIndent: 25,

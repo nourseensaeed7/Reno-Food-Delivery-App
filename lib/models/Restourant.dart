@@ -127,12 +127,16 @@ class Restourant extends ChangeNotifier{
   ),
 ];
 //operations_
-  List<Food> get menu => _menu;
+  //getters
+  // List<Food> get menu => _menu;
   List<CartItem> get cart => _cart;
+
+  //delivery address
+  String _deliveryAddress="Enter your Address..";
 
   // user cart
   final List<CartItem> _cart = [];
-
+  String get deliveryAddress=>_deliveryAddress;
   void addToCart(Food food, List<Addon> selectedAddons) {  // FIXED: ( ) { not ( ) (
     // see if there is a cart item already with the same food and selected addons
     CartItem? cartItem = _cart.firstWhereOrNull((item) {   // FIXED: (item) { not just item){
@@ -152,20 +156,20 @@ class Restourant extends ChangeNotifier{
       _cart.add(CartItem(food: food,
           selectedAddons: selectedAddons,
       ));
-      notifyListeners();
     }
+      notifyListeners();
   }
 
  // remove from cart
  void removeFromCart(CartItem cartItem) {
     int cartIndex = _cart.indexOf(cartItem);
-  if (_cart![cartIndex].quantity > 1) {
+  if (_cart[cartIndex].quantity > 1) {
     _cart[cartIndex].quantity--;
   } else{
     _cart.removeAt(cartIndex);
   }
     notifyListeners();
-
+  }
   //total price
    double getTotalPrice(){
     double total = 0.0 ;
@@ -193,7 +197,12 @@ class Restourant extends ChangeNotifier{
     _cart.clear();
     notifyListeners();
    }
-  }
+   //update Delivery address
+   void updateDeliveryAddress(String newAddress){
+    _deliveryAddress=newAddress;
+    notifyListeners();
+   }
+
 }
 
 

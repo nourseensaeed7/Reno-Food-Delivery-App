@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/components/MyButton.dart';
 import 'package:fooddelivery/components/MyTextField.dart';
-import 'package:fooddelivery/pages/HomePage.dart';
+import 'package:fooddelivery/services/auth/AuthService.dart';
 import 'package:google_fonts/google_fonts.dart';
  class LoginPage extends StatefulWidget{
   final void Function()?onTap;
@@ -14,12 +14,24 @@ import 'package:google_fonts/google_fonts.dart';
   final TextEditingController emailController=TextEditingController();
   final TextEditingController passwordController=TextEditingController();
   //login method
-  void login(){
+  void login()async{
+    //get instance of auth service 
+    final _authService=AuthService();
+    //try sign in
+    try{
+      await _authService.signInWithEmailPassword(emailController.text, passwordController.text);
+    }catch(e){
+      showDialog(
+        context: context, 
+        builder: (context)=>AlertDialog(
+          title: Text(e.toString()),
+        ));
+    }
     //navigate homepage
-    Navigator.push(
-      context, 
-      MaterialPageRoute(
-        builder:(context)=>const HomePage(),));
+    // Navigator.push(
+    //   context, 
+    //   MaterialPageRoute(
+    //     builder:(context)=>const HomePage(),));
   }
   @override
   Widget build(BuildContext context){

@@ -6,6 +6,6 @@ ThemeData lightMode=ThemeData(
     inversePrimary:Color.fromARGB(44, 2, 51, 45),
     primary: Color(0xFF02332D),
     secondary: Color(0xFF7F1100),
-    tertiary: Color(0xFFBF9861)
+    tertiary: Color.fromARGB(121, 191, 152, 97)
   )
 );

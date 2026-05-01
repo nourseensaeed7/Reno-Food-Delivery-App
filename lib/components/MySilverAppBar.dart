@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fooddelivery/pages/CartPage.dart';
 
 class MySilverAppBar extends StatelessWidget {
   final Widget child;
@@ -13,15 +14,18 @@ class MySilverAppBar extends StatelessWidget {
       pinned: true,
       actions: [
         IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.shopping_cart),
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>const CartPage(),),);
+          },
+          icon: const Icon(Icons.shopping_cart_outlined),
         ),
       ],
       backgroundColor: Theme.of(context).colorScheme.background,
       foregroundColor: Theme.of(context).colorScheme.primary,
 
       // ✅ restaurant name in title slot
-      title: const Text("Sunset Diner"),
+      centerTitle: true, 
+      title: Image.asset('assets/images/Reno_horizontal.png',height: 50,),
 
       // ✅ TabBar pinned at the bottom edge of the app bar
       bottom: PreferredSize(

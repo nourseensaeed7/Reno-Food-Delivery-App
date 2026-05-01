@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fooddelivery/components/MyButton.dart';
 import 'package:fooddelivery/components/MyTextField.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:fooddelivery/services/auth/AuthService.dart';
 
  class RegisterPage extends StatefulWidget{
   final void Function()?onTap;
@@ -13,6 +14,32 @@ import 'package:google_fonts/google_fonts.dart';
   final TextEditingController emailController=TextEditingController();
   final TextEditingController passwordController=TextEditingController();
   final TextEditingController confirmPasswordController=TextEditingController();
+
+    void register() async{
+    //authentcation
+    final _authService=AuthService();
+    //does passwords match?
+    if(passwordController.text==confirmPasswordController.text){
+      //create user
+      try{
+        await _authService.signUpWithEmailPassword(emailController.text, passwordController.text);
+      }catch(e){
+        showDialog(
+          context: context,
+           builder: (context)=>AlertDialog(
+            title: Text(e.toString()),
+           ));
+      }
+    }//if the paswords does not match
+    else{
+      showDialog(
+          context: context,
+           builder: (context)=>AlertDialog(
+            title: Text("Password don't match!"),
+           ));
+      }
+    }
+
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -45,7 +72,7 @@ import 'package:google_fonts/google_fonts.dart';
           const SizedBox(height: 15),
           //button
           MyButton(text: 'Sign up',
-          onTap: (){},),
+          onTap:  register,),
           const SizedBox(height: 15),
           //sign in button
           Row(
