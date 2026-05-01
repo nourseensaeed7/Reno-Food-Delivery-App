@@ -10,15 +10,18 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // ── NEW: load saved cart before app starts ──
+  // ── load cart + address before app starts ──
   final restourant = Restourant();
   await restourant.loadCartFromPrefs();
+
+  // ── NEW: load saved theme before app starts ──
+  final themeProvider = Themeprovider();
+  await themeProvider.loadThemeFromPrefs();
 
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => Themeprovider()),
-        // ── CHANGED: use the already-created instance instead of creating new ──
+        ChangeNotifierProvider.value(value: themeProvider),
         ChangeNotifierProvider.value(value: restourant),
       ],
       child: const MyApp(),

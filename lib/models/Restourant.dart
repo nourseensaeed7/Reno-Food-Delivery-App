@@ -29,6 +29,10 @@ class Restourant extends ChangeNotifier {
   // ── NEW: called once from main() before runApp ──────────────────────────────
   Future<void> loadCartFromPrefs() async {
     final prefs = await SharedPreferences.getInstance();
+
+    // ── NEW: load saved delivery address ──
+    _deliveryAddress = prefs.getString('deliveryAddress') ?? "Enter your Address..";
+
     final String? cartJson = prefs.getString('cart');
     if (cartJson == null) return;
 
@@ -36,16 +40,12 @@ class Restourant extends ChangeNotifier {
     _cart.clear();
 
     for (final item in decoded) {
-      // Match saved food name back to the real Food object in menu
       final Food? food = menu.firstWhereOrNull((f) => f.name == item['foodName']);
       if (food == null) continue;
-
-      // Match saved addon names back to real Addon objects
       final List<Addon> addons = (item['addons'] as List)
           .map((addonName) =>
           food.availableAddons.firstWhere((a) => a.name == addonName))
           .toList();
-
       _cart.add(CartItem(food: food, selectedAddons: addons, quantity: item['quantity']));
     }
     notifyListeners();
@@ -116,7 +116,14 @@ class Restourant extends ChangeNotifier {
 
   void updateDeliveryAddress(String newAddress) {
     _deliveryAddress = newAddress;
+    // ── NEW: save address ──
+    _saveAddressToPrefs();
     notifyListeners();
+  }
+
+  Future<void> _saveAddressToPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('deliveryAddress', _deliveryAddress);
   }
 
   String displayCartReceipt() {
