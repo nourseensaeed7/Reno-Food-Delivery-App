@@ -11,8 +11,19 @@ class MyDrawerTile extends StatelessWidget{
   required this.onTap,
   });
   Widget build(BuildContext context){
-    return Padding(padding: const EdgeInsets.only(left:0.0 ),
-    child:ListTile(
+    return Padding(
+        padding: const EdgeInsets.symmetric(
+            horizontal: 10, vertical: 3),
+        child: Container(
+            decoration: BoxDecoration(
+              borderRadius:
+              BorderRadius.circular(14),
+              color: Theme.of(context)
+                  .colorScheme
+                  .inversePrimary
+                  .withOpacity(0.12),
+            ),
+            child: ListTile(
     title:Text(text,
         style:
          GoogleFonts.poppins(
@@ -24,6 +35,7 @@ class MyDrawerTile extends StatelessWidget{
     leading: Icon(icon,color:Theme.of(context).colorScheme.primary,),
     onTap: onTap,
     )
+        ),
     );
   }
 }

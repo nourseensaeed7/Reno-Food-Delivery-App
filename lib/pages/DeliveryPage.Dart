@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/components/MyReceipt.dart';
 import 'package:fooddelivery/models/Restourant.dart';
-import 'package:fooddelivery/services/database/FireStore.dart';
+import 'package:fooddelivery/services/database/OrderService.dart';
 import 'package:provider/provider.dart';
 
 class DeliveryPage extends StatefulWidget {
@@ -13,14 +13,14 @@ class DeliveryPage extends StatefulWidget {
 
 class _DeliveryPageState extends State<DeliveryPage> {
 
-  final FireStoreService db = FireStoreService();
+  final OrderService db = OrderService();
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       String receipt = context.read<Restourant>().displayCartReceipt();
-      db.saveOrderToDatabase(receipt);
+      db.saveOrder(receipt);
     });
   }
 

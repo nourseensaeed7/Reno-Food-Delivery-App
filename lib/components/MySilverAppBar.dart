@@ -20,7 +20,11 @@ class MySilverAppBar extends StatelessWidget {
           icon: const Icon(Icons.shopping_cart_outlined),
         ),
       ],
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context)
+          .colorScheme
+          .background
+          .withOpacity(0.92),
+      elevation: 0,
       foregroundColor: Theme.of(context).colorScheme.primary,
 
       // ✅ restaurant name in title slot

@@ -14,19 +14,28 @@ class MyDrawer extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return Drawer(
-      backgroundColor: Theme.of(context).colorScheme.background,
-      child:Column(
-        children: [
-           Image.asset(
-            'assets/images/Reno_horizontal.png',
-            height: 110,
-          ),
-          Padding(
-            padding:const EdgeInsets.symmetric(horizontal: 25.0),
-            child:Divider(
-              color:Theme.of(context).colorScheme.primary,
-            ),
-          ),
+        backgroundColor: Theme.of(context)
+            .colorScheme
+            .background
+            .withOpacity(0.95),
+        child: SafeArea(
+            child: Column(
+              children: [
+                const SizedBox(height: 15),
+                Image.asset(
+                  'assets/images/Reno_horizontal.png',
+                  height: 95,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 25),
+                  child: Divider(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .primary
+                        .withOpacity(0.25),
+                  ),
+                ),
           MyDrawerTile(text: 'Home', icon: Icons.home, onTap: ()=>Navigator.pop(context)),
           MyDrawerTile(text: 'Settings', icon: Icons.settings,
             onTap: (){
@@ -38,6 +47,7 @@ class MyDrawer extends StatelessWidget{
           const SizedBox(height: 5,)
         ],
       )
+        ),
     );
   }
 }

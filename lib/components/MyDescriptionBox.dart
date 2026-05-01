@@ -1,38 +1,43 @@
 import 'package:flutter/material.dart';
 
-class MyDescriptionBox extends StatelessWidget{
+class MyDescriptionBox extends StatelessWidget {
   const MyDescriptionBox({super.key});
 
   @override
   Widget build(BuildContext context) {
-    //teststyle
-    var myPrimaryTextStyle = TextStyle(color: Theme.of(context).colorScheme.secondary);
-    var mySecondaryTextStyle = TextStyle(color: Theme.of(context).colorScheme.primary);
     return Container(
+      padding: const EdgeInsets.all(18),
+      margin: const EdgeInsets.only(
+          left: 20, right: 20, bottom: 25),
       decoration: BoxDecoration(
-        color:Theme.of(context).colorScheme.inversePrimary,
-        border: Border.all(color: Theme.of(context).colorScheme.primary),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      padding: const EdgeInsets.all(15),
-      margin: const EdgeInsets.only(left: 20, right:20, bottom:25),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-         Column(
-          children: [
-            Text('Delivery Fee', style: mySecondaryTextStyle),
-            Text('\$0.99', style: myPrimaryTextStyle),
-          ],
-    ),
-        //delivery time
-        Column(
-          children: [
-            Text('Delivery Time', style: mySecondaryTextStyle),
-            Text('15-30 min', style: myPrimaryTextStyle),
-          ],
+        color: Theme.of(context)
+            .colorScheme
+            .inversePrimary
+            .withOpacity(0.30),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(
+          color: Colors.white.withOpacity(0.12),
         ),
-      ],
+      ),
+      child: Row(
+        mainAxisAlignment:
+        MainAxisAlignment.spaceBetween,
+        children: const [
+          Column(
+            children: [
+              Text("Delivery Fee"),
+              SizedBox(height: 5),
+              Text("\$0.99"),
+            ],
+          ),
+          Column(
+            children: [
+              Text("Delivery Time"),
+              SizedBox(height: 5),
+              Text("15-30 min"),
+            ],
+          ),
+        ],
       ),
     );
   }
