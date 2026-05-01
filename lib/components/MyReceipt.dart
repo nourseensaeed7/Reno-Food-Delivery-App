@@ -15,66 +15,69 @@ class MyReceipt extends StatelessWidget {
     final total = restaurant.getTotalPrice();
 
     return Padding(
-      padding: const EdgeInsets.only(left: 25, right: 25, bottom: 25),
+      padding: const EdgeInsets.all(20),
       child: Column(
         children: [
           const Text(
             "Thank you for your order!",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 20),
 
           Container(
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey.shade300),
-              borderRadius: BorderRadius.circular(12),
+              color: Theme.of(context).colorScheme.inversePrimary,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.08),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
             ),
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Header
                 const Center(
                   child: Text(
                     "R E C E I P T",
                     style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 4,
-                    ),
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 4),
                   ),
                 ),
-                const SizedBox(height: 8),
-                const Divider(),
+                const SizedBox(height: 12),
+                Divider(
+                    color: Theme.of(context).colorScheme.primary.withOpacity(0.2)),
                 const SizedBox(height: 8),
 
-                // Cart items mapped from restaurant model
+                // Cart items
                 ...cart.map((CartItem cartItem) {
-                  // base price + addons price
-                  double itemPrice =
-                      cartItem.food.price +
-                      cartItem.selectedAddons.fold(
-                        0.0,
-                        (sum, addon) => sum + addon.price,
-                      );
-
+                  double itemPrice = cartItem.food.price +
+                      cartItem.selectedAddons
+                          .fold(0.0, (sum, addon) => sum + addon.price);
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildReceiptRow(
+                      _buildRow(
+                        context,
                         "${cartItem.food.name} x${cartItem.quantity}",
                         "\$${(itemPrice * cartItem.quantity).toStringAsFixed(2)}",
                       ),
-                      // show addons if any
                       if (cartItem.selectedAddons.isNotEmpty)
                         Padding(
                           padding: const EdgeInsets.only(left: 12, bottom: 4),
                           child: Text(
-                            "  + ${cartItem.selectedAddons.map((a) => a.name).join(', ')}",
-                            style: const TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey,
-                            ),
+                            "+ ${cartItem.selectedAddons.map((a) => a.name).join(', ')}",
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .primary
+                                    .withOpacity(0.6)),
                           ),
                         ),
                     ],
@@ -82,24 +85,23 @@ class MyReceipt extends StatelessWidget {
                 }),
 
                 const SizedBox(height: 8),
-                const Divider(),
+                Divider(
+                    color: Theme.of(context).colorScheme.primary.withOpacity(0.2)),
                 const SizedBox(height: 8),
 
-                // Total
-                _buildReceiptRow(
-                  "Total",
-                  "\$${total.toStringAsFixed(2)}",
-                  isBold: true,
-                ),
+                _buildRow(context, "Total", "\$${total.toStringAsFixed(2)}",
+                    isBold: true),
 
                 const SizedBox(height: 16),
-                const Divider(),
-                const SizedBox(height: 8),
-
-                const Center(
+                Center(
                   child: Text(
                     "Estimated delivery: 25-35 mins",
-                    style: TextStyle(color: Colors.grey, fontSize: 13),
+                    style: TextStyle(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.6),
+                        fontSize: 13),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -107,11 +109,14 @@ class MyReceipt extends StatelessWidget {
                 MyButton(
                   text: "Back to Home",
                   onTap: () {
+                    // ── FIXED: clear cart then navigate to HomePage,
+                    //    removing all previous routes from the stack ──
                     context.read<Restourant>().clearCart();
-                    Navigator.pushNamedAndRemoveUntil(
+                    Navigator.pushAndRemoveUntil(
                       context,
-                      '/home',
-                      (route) => false,
+                      MaterialPageRoute(
+                          builder: (context) => const HomePage()),
+                          (route) => false,
                     );
                   },
                 ),
@@ -123,26 +128,21 @@ class MyReceipt extends StatelessWidget {
     );
   }
 
-  Widget _buildReceiptRow(String label, String amount, {bool isBold = false}) {
+  Widget _buildRow(BuildContext context, String label, String amount,
+      {bool isBold = false}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            label,
-            style: TextStyle(
-              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-              fontSize: isBold ? 16 : 14,
-            ),
-          ),
-          Text(
-            amount,
-            style: TextStyle(
-              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-              fontSize: isBold ? 16 : 14,
-            ),
-          ),
+          Text(label,
+              style: TextStyle(
+                  fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+                  fontSize: isBold ? 16 : 14)),
+          Text(amount,
+              style: TextStyle(
+                  fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+                  fontSize: isBold ? 16 : 14)),
         ],
       ),
     );

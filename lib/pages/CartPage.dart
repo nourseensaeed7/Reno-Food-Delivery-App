@@ -15,19 +15,24 @@ class CartPage extends StatelessWidget {
         double totalPrice = restourant.getTotalPrice();
 
         return Scaffold(
+          backgroundColor: Theme.of(context).colorScheme.background,
           appBar: AppBar(
             title: const Text("Cart"),
-            backgroundColor: Colors.transparent,
+            backgroundColor: Theme.of(context).colorScheme.background,
             foregroundColor: Theme.of(context).colorScheme.primary,
+            elevation: 0,
             actions: [
               IconButton(
                 onPressed: () {
                   showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
-                      title: const Text(
-                        "Are you sure you want to clear the cart?",
-                      ),
+                      // ── NEW: rounded dialog ──
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16)),
+                      title: const Text("Clear cart?"),
+                      content: const Text(
+                          "Are you sure you want to remove all items?"),
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.pop(context),
@@ -48,109 +53,107 @@ class CartPage extends StatelessWidget {
               ),
             ],
           ),
-          backgroundColor: Theme.of(context).colorScheme.background,
           body: Column(
             children: [
-              // Cart list
               userCart.isEmpty
                   ? Expanded(
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.shopping_cart_outlined,
-                              size: 100,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                            const SizedBox(height: 16),
-                            Text(
-                              "Your cart is empty..",
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.secondary,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.shopping_cart_outlined,
+                          size: 80,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withOpacity(0.4)),
+                      const SizedBox(height: 16),
+                      Text(
+                        "Your cart is empty",
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    )
+                    ],
+                  ),
+                ),
+              )
                   : Expanded(
-                      child: ListView.builder(
-                        itemCount: userCart.length,
-                        itemBuilder: (context, index) {
-                          final cartItem = userCart[index];
-                          return MyCartTile(cartItem: cartItem);
-                        },
-                      ),
-                    ),
+                child: ListView.builder(
+                  itemCount: userCart.length,
+                  itemBuilder: (context, index) {
+                    return MyCartTile(cartItem: userCart[index]);
+                  },
+                ),
+              ),
 
-              // Bottom bar: total + checkout button
+              // ── CHANGED: checkout bar as a clean card ──
               if (userCart.isNotEmpty)
                 Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.tertiary,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(16),
-                      topRight: Radius.circular(16),
-                    ),
-                  ),
+                  margin: const EdgeInsets.all(16),
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 25,
-                    vertical: 20,
+                      horizontal: 20, vertical: 16),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.inversePrimary,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.1),
+                        blurRadius: 12,
+                        offset: const Offset(0, -2),
+                      ),
+                    ],
                   ),
                   child: Column(
                     children: [
-                      // Total row
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            "Total",
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.secondary,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                          Text("Total",
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .secondary,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold)),
                           Text(
                             "\$${totalPrice.toStringAsFixed(2)}",
                             style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+                                color: Theme.of(context).colorScheme.primary,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
-
-                      const SizedBox(height: 16),
-
-                      // Go to checkout button
+                      const SizedBox(height: 14),
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const PaymentPage()));
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const PaymentPage()),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
-                                Theme.of(context).colorScheme.primary,
+                            Theme.of(context).colorScheme.primary,
                             foregroundColor:
-                                Theme.of(context).colorScheme.surface,
-                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            Theme.of(context).colorScheme.background,
+                            padding: const EdgeInsets.symmetric(vertical: 14),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
+                                borderRadius: BorderRadius.circular(12)),
                           ),
-                          child: const Text(
-                            "Go to Checkout",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                          child: const Text("Go to Checkout",
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold)),
                         ),
                       ),
                     ],

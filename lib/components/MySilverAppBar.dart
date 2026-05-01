@@ -12,38 +12,39 @@ class MySilverAppBar extends StatelessWidget {
       expandedHeight: 250,
       floating: false,
       pinned: true,
+      backgroundColor: Theme.of(context).colorScheme.background,
+      foregroundColor: Theme.of(context).colorScheme.primary,
+      centerTitle: true,
+      title: Image.asset('assets/images/Reno_horizontal.png', height: 50),
       actions: [
         IconButton(
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>const CartPage(),),);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const CartPage()),
+            );
           },
           icon: const Icon(Icons.shopping_cart_outlined),
         ),
       ],
-      backgroundColor: Theme.of(context)
-          .colorScheme
-          .background
-          .withOpacity(0.92),
-      elevation: 0,
-      foregroundColor: Theme.of(context).colorScheme.primary,
-
-      // ✅ restaurant name in title slot
-      centerTitle: true, 
-      title: Image.asset('assets/images/Reno_horizontal.png',height: 50,),
-
-      // ✅ TabBar pinned at the bottom edge of the app bar
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(50),
-        child: title,   // your MyTabBar widget
+        child: Container(
+          // subtle card behind the tab bar
+          color: Theme.of(context).colorScheme.background,
+          child: title,
+        ),
       ),
-
       flexibleSpace: FlexibleSpaceBar(
-        background: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            child,  // MyCurrentLocation + Divider + MyDescriptionBox
-            const SizedBox(height: 40), // space so content doesn't hide behind TabBar
-          ],
+        background: Container(
+          color: Theme.of(context).colorScheme.background,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              child,
+              const SizedBox(height: 40),
+            ],
+          ),
         ),
       ),
     );

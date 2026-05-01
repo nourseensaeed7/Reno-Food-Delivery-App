@@ -16,77 +16,86 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  // ── NEW: scroll controller needed for the Scrollbar ──
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: FoodCategory.values.length, vsync: this);//no. of categories to be displayed in bar 
+    _tabController =
+        TabController(length: FoodCategory.values.length, vsync: this);
   }
 
   @override
   void dispose() {
     _tabController.dispose();
+    _scrollController.dispose(); // ── NEW
     super.dispose();
   }
 
-  //sort and return a list of food items that belong to this category
-  List<Food>_filterMenuByCategory(FoodCategory category, List<Food>fullMenu){
-    return fullMenu.where((food)=>food.category==category).toList();
+  List<Food> _filterMenuByCategory(
+      FoodCategory category, List<Food> fullMenu) {
+    return fullMenu.where((food) => food.category == category).toList();
   }
 
-  //return list of foods in the category
-  List<Widget> getFoodInThisCategory(List<Food>fullMenu){
-    return FoodCategory.values.map((category){
-      //get category menue
-      List<Food> categoryMenu=_filterMenuByCategory(category, fullMenu);
+  List<Widget> getFoodInThisCategory(List<Food> fullMenu) {
+    return FoodCategory.values.map((category) {
+      List<Food> categoryMenu = _filterMenuByCategory(category, fullMenu);
       return ListView.builder(
         itemCount: categoryMenu.length,
         physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context,index){
-          final food=categoryMenu[index];
-
-          // retrun food tile UI
-          return MyFoodTile(food: food,
-           onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>FoodPage(food: food
-           ),)),);
+        itemBuilder: (context, index) {
+          final food = categoryMenu[index];
+          return MyFoodTile(
+            food: food,
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => FoodPage(food: food)),
+            ),
+          );
         },
       );
     }).toList();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor:
-        Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.background,
       drawer: const MyDrawer(),
-      body: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) => [
-          MySilverAppBar(
-            title: MyTabBar(tabController: _tabController),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                 MyCurrentLocation(),
-                Divider(
-                  indent: 25,
-                  endIndent: 25,
-                  color: Theme.of(context).colorScheme.secondary,
-                ),
-                const MyDescriptionBox(),
-              ],
+      body: Scrollbar(
+        // ── NEW: scrollbar wrapping the whole scroll area ──
+        controller: _scrollController,
+        child: NestedScrollView(
+          controller: _scrollController, // ── NEW: linked to scrollbar
+          headerSliverBuilder: (context, innerBoxIsScrolled) => [
+            MySilverAppBar(
+              title: MyTabBar(tabController: _tabController),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  MyCurrentLocation(),
+                  Divider(
+                    indent: 25,
+                    endIndent: 25,
+                    color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                  ),
+                  const MyDescriptionBox(),
+                ],
+              ),
+            ),
+          ],
+          body: Consumer<Restourant>(
+            builder: (context, restourant, child) => TabBarView(
+              controller: _tabController,
+              children: getFoodInThisCategory(restourant.menu),
             ),
           ),
-        ],
-        body:Consumer<Restourant>(builder: (context, restourant,child)=>
-         TabBarView(
-          controller: _tabController,
-          children:getFoodInThisCategory(restourant.menu),
         ),
-        
       ),
-      )
-      );
+    );
   }
 }

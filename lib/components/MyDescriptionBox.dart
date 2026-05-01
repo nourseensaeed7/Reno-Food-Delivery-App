@@ -6,35 +6,49 @@ class MyDescriptionBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(18),
-      margin: const EdgeInsets.only(
-          left: 20, right: 20, bottom: 25),
+      // ── CHANGED: card style matching the rest of the app ──
       decoration: BoxDecoration(
-        color: Theme.of(context)
-            .colorScheme
-            .inversePrimary
-            .withOpacity(0.30),
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(
-          color: Colors.white.withOpacity(0.12),
-        ),
+        color: Theme.of(context).colorScheme.inversePrimary,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).colorScheme.primary.withOpacity(0.08),
+            blurRadius: 8,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
+      padding: const EdgeInsets.all(15),
+      margin: const EdgeInsets.only(left: 20, right: 20, bottom: 25),
       child: Row(
-        mainAxisAlignment:
-        MainAxisAlignment.spaceBetween,
-        children: const [
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
           Column(
             children: [
-              Text("Delivery Fee"),
-              SizedBox(height: 5),
-              Text("\$0.99"),
+              Text('Delivery Fee',
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary)),
+              Text('\$0.99',
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.secondary,
+                      fontWeight: FontWeight.bold)),
             ],
+          ),
+          // ── NEW: small divider between the two info blocks ──
+          Container(
+            height: 30,
+            width: 1,
+            color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
           ),
           Column(
             children: [
-              Text("Delivery Time"),
-              SizedBox(height: 5),
-              Text("15-30 min"),
+              Text('Delivery Time',
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary)),
+              Text('15-30 min',
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.secondary,
+                      fontWeight: FontWeight.bold)),
             ],
           ),
         ],
