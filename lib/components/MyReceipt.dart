@@ -108,9 +108,10 @@ class MyReceipt extends StatelessWidget {
                   text: "Back to Home",
                   onTap: () {
                     context.read<Restourant>().clearCart();
-                     Navigator.push(
+                    Navigator.pushNamedAndRemoveUntil(
                       context,
-                      MaterialPageRoute(builder: (context) => HomePage()),
+                      '/home',
+                      (route) => false,
                     );
                   },
                 ),

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/components/MyReceipt.dart';
+import 'package:fooddelivery/models/Restourant.dart';
+import 'package:fooddelivery/services/database/FireStore.dart';
+import 'package:provider/provider.dart';
 
 class DeliveryPage extends StatefulWidget {
   const DeliveryPage({super.key});
@@ -10,16 +13,18 @@ class DeliveryPage extends StatefulWidget {
 
 class _DeliveryPageState extends State<DeliveryPage> {
 
-  FirestoreService db=FirestoreService();
-  @override
-  void initState(){
-    super.initState();
-    //submit order into database
-    String receipt=context.read<Restourant>().displayCartReceipt();
-    db.saveOrderToDatabase(receipt);
-  }
-  @override
+  final FireStoreService db = FireStoreService();
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      String receipt = context.read<Restourant>().displayCartReceipt();
+      db.saveOrderToDatabase(receipt);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
@@ -28,10 +33,8 @@ class _DeliveryPageState extends State<DeliveryPage> {
         foregroundColor: Theme.of(context).colorScheme.primary,
         title: const Text("Delivery"),
       ),
-      body: Column(
-        children: [
-          MyReceipt(),
-        ],
+      body: const SingleChildScrollView(  // prevents overflow on small screens
+        child: MyReceipt(),
       ),
     );
   }
